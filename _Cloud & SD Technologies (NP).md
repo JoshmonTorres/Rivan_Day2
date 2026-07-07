@@ -1,5 +1,5 @@
 
-<!-- Your monitor number = #$34T# -->
+<!-- Your monitor number = 21 -->
 
 
 ## ⛅ Warm Up for Day 2.
@@ -57,8 +57,8 @@
 ### Step 1 - Add routing to PC
 ~~~
 !@cmd
-route add 10.0.0.0 mask 255.0.0.0 10.#$34T#.1.4
-route add 200.0.0.0 mask 255.255.255.0 10.#$34T#.1.4
+route add 10.0.0.0 mask 255.0.0.0 10.21.1.4
+route add 200.0.0.0 mask 255.255.255.0 10.21.1.4
 ~~~
 
 <br>
@@ -69,7 +69,7 @@ route add 200.0.0.0 mask 255.255.255.0 10.#$34T#.1.4
 conf t
  int vlan 1
   no shut
-  ip add 10.#$34T#.1.2 255.255.255.0
+  ip add 10.21.1.2 255.255.255.0
   desc mgmtData-configuredManually
   exit
   enable secret pass
@@ -88,7 +88,7 @@ conf t
 conf t
  int vlan 1
   no shut
-  ip add 10.#$34T#.1.4 255.255.255.0
+  ip add 10.21.1.4 255.255.255.0
   desc mgmtData-configuredManually
   exit
  vlan 100
@@ -96,7 +96,7 @@ conf t
   exit
  int vlan 100
   no shut
-  ip add 10.#$34T#.100.4 255.255.255.0
+  ip add 10.21.100.4 255.255.255.0
   desc vlanMgmtVoice-configuredManually
   exit
  int fa 0/3
@@ -106,10 +106,10 @@ conf t
  int gi0/1
   no switchport
   no shut 
-  ip add 10.#$34T#.#$34T#.4 255.255.255.0
+  ip add 10.21.21.4 255.255.255.0
   exit
  ip routing
- ip route 0.0.0.0 0.0.0.0 10.#$34T#.#$34T#.1 120
+ ip route 0.0.0.0 0.0.0.0 10.21.21.1 120
  enable secret pass
  line vty 0 14
   password pass
@@ -126,10 +126,10 @@ conf t
 conf t
  int fa0/0
   no shut
-  ip add 10.#$34T#.100.8 255.255.255.0
+  ip add 10.21.100.8 255.255.255.0
   exit
  ip routing
- ip route 0.0.0.0 0.0.0.0 10.#$34T#.100.4 120
+ ip route 0.0.0.0 0.0.0.0 10.21.100.4 120
  enable secret pass
  line vty 0 14
   password pass
@@ -145,11 +145,11 @@ conf t
 !@edge
 conf t
  int gi 0/0/0
-  ip add 10.#$34T#.#$34T#.1 255.255.255.0
+  ip add 10.21.21.1 255.255.255.0
   no shut
   exit
  ip routing
- ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 120
+ ip route 10.21.0.0 255.255.0.0 10.21.21.4 120
  enable secret pass
  line vty 0 14
   password pass
@@ -167,10 +167,10 @@ conf t
 On SecureCRT:
 | IP                 | Device   |
 | ---                | ---      |
-| 10.#$34T#.1.2	     | CoreTaas |
-| 10.#$34T#.1.4      | CoreBaba |
-| 10.#$34T#.100.8    | CUCM     |
-| 10.#$34T#.#$34T#.1 | EDGE     |
+| 10.21.1.2	     | CoreTaas |
+| 10.21.1.4      | CoreBaba |
+| 10.21.100.8    | CUCM     |
+| 10.21.21.1 | EDGE     |
 
 &nbsp;
 ---
@@ -200,7 +200,7 @@ sh mac address-table
 For an SSH connection to be established, the device must have:  
 | Description                      | Command                                  |
 | ---                              | ---                                      |
-| a non-default hostname           | hostname coreBaba#$34T#                  |
+| a non-default hostname           | hostname coreBaba21                  |
 | a domain name                    | ip domain name day1lab.com               |
 | a local user account             | username admin privilege 15 secret pass  |
 | generated crypto keys            | crypto key generate rsa modulus 2048     |
@@ -223,7 +223,7 @@ Extra lines
 ~~~
 !@coreTaas
 conf t
- hostname coreTaas-#$34T#
+ hostname coreTaas-21
  service password-encryption
  no logging console
  no ip domain-lookup
@@ -245,7 +245,7 @@ conf t
 ~~~
 !@coreBaba
 conf t
- hostname coreBaba-#$34T#
+ hostname coreBaba-21
  service password-encryption
  no logging console
  no ip domain-lookup
@@ -267,7 +267,7 @@ conf t
 ~~~
 !@cucm
 conf t
- hostname cucm-#$34T#
+ hostname cucm-21
  service password-encryption
  no logging console
  no ip domain-lookup
@@ -288,7 +288,7 @@ conf t
 ~~~
 !@edge
 conf t
- hostname edge-#$34T#
+ hostname edge-21
  service password-encryption
  no logging console
  no ip domain-lookup
@@ -401,7 +401,7 @@ ip -br link
 3. Modify Interface IP  
 VMNet2:  192.168.102.6/24  
 VMNet3:  11.11.11.100/27  
-Bridged: 10.#$34T#.1.6/24  
+Bridged: 10.21.1.6/24  
 
 <br>
 
@@ -409,7 +409,7 @@ Bridged: 10.#$34T#.1.6/24
 !@NetOps-PH
 ifconfig ens192 192.168.102.6 netmask 255.255.255.0 up
 ifconfig ens224 11.11.11.100 netmask 255.255.255.224 up
-ifconfig ens256 10.#$34T#.1.6 netmask 255.255.255.0 up
+ifconfig ens256 10.21.1.6 netmask 255.255.255.0 up
 ~~~
 
 <br>
@@ -461,13 +461,13 @@ type ethernet \
 con-name BRIDGED \
 ifname ens256 \
 ipv4.method manual \
-ipv4.addresses 10.#$34T#.1.6/24 \
+ipv4.addresses 10.21.1.6/24 \
 autoconnect yes
 
 nmcli connection up BRIDGED
 
-ip route add 10.0.0.0/8 via 10.#$34T#.1.4 dev ens256
-ip route add 200.0.0.0/24 via 10.#$34T#.1.4 dev ens256
+ip route add 10.0.0.0/8 via 10.21.1.4 dev ens256
+ip route add 200.0.0.0/24 via 10.21.1.4 dev ens256
 ip route add 0.0.0.0/0 via 11.11.11.113 dev ens224
 ~~~
 
@@ -496,17 +496,17 @@ rm -rf /root/.ssh/known_hosts
 SSH to the ff devices:
 ~~~
 !@NetOps
-ssh admin@10.#$34T#.1.2
+ssh admin@10.21.1.2
 ~~~
 
 <br>
 
 | IP                 | Device   |
 | ---                | ---      |
-| 10.#$34T#.1.2      | CoreTaas |
-| 10.#$34T#.1.4      | CoreBaba |
-| 10.#$34T#.100.8    | CUCM     |
-| 10.#$34T#.#$34T#.1 | EDGE     |
+| 10.21.1.2      | CoreTaas |
+| 10.21.1.4      | CoreBaba |
+| 10.21.100.8    | CUCM     |
+| 10.21.21.1 | EDGE     |
 
 <br>
 
@@ -532,7 +532,7 @@ cd SSHAUTOMATE/_Ansible/Ex\ 02\ -\ Day1/__day1_project/
 Camera MAC Addresses:  
 ~~~
 !@NetOps
-nano host_vars/cbaba_#$34T#.yml
+nano host_vars/cbaba_21.yml
 ~~~
 
 <br>
@@ -540,7 +540,7 @@ nano host_vars/cbaba_#$34T#.yml
 EPhone MAC Addresses:
 ~~~
 !@NetOps
-nano host_vars/cucm_#$34T#.yml
+nano host_vars/cucm_21.yml
 ~~~
 
 &nbsp;
@@ -550,7 +550,7 @@ nano host_vars/cucm_#$34T#.yml
 ### Step 10 - Run the Playbook
 ~~~
 !@NetOps
-ansible-playbook -i rivan_mkt.ini playbooks/deploy_#$34T#.yml --skip-tags ivrs
+ansible-playbook -i rivan_mkt.ini playbooks/deploy_21.yml --skip-tags ivrs
 ~~~
 
 
@@ -1511,7 +1511,7 @@ conf t
 ~~~
 !@CoreTAAS
 conf t
- hostname coreTaas-#$34T#
+ hostname coreTaas-21
  enable secret pass
  service password-encryption
  no logging console
@@ -1526,19 +1526,19 @@ conf t
   exec-timeout 0 0
  int vlan 1
   no shut
-  ip add 10.#$34T#.1.2 255.255.255.0
+  ip add 10.21.1.2 255.255.255.0
   desc DEFAULT-VLAN
  int vlan 10
   no shut
-  ip add 10.#$34T#.10.2 255.255.255.0
+  ip add 10.21.10.2 255.255.255.0
   desc WIFI-VLAN
  int vlan 50
   no shut
-  ip add 10.#$34T#.50.2 255.255.255.0
+  ip add 10.21.50.2 255.255.255.0
   desc CCTV-VLAN
  int vlan 100
   no shut
-  ip add 10.#$34T#.100.2 255.255.255.0
+  ip add 10.21.100.2 255.255.255.0
   desc VOICE-VLAN
  end
 ~~~
@@ -1550,7 +1550,7 @@ conf t
 ~~~
 !@CoreBABA
 conf t
- hostname coreBaba-#$34T#
+ hostname coreBaba-21
  enable secret pass
  service password-encryption
  no logging console
@@ -1566,22 +1566,22 @@ conf t
  int gi 0/1
   no shut
   no switchport
-  ip add 10.#$34T#.#$34T#.4 255.255.255.0
+  ip add 10.21.21.4 255.255.255.0
  int vlan 1
   no shut
-  ip add 10.#$34T#.1.4 255.255.255.0
+  ip add 10.21.1.4 255.255.255.0
   desc DEFAULT-VLAN
  int vlan 10
   no shut
-  ip add 10.#$34T#.10.4 255.255.255.0
+  ip add 10.21.10.4 255.255.255.0
   desc WIFI-VLAN
  int vlan 50
   no shut
-  ip add 10.#$34T#.50.4 255.255.255.0
+  ip add 10.21.50.4 255.255.255.0
   desc CCTV-VLAN
  int vlan 100
   no shut
-  ip add 10.#$34T#.100.4 255.255.255.0
+  ip add 10.21.100.4 255.255.255.0
   desc VOICE-VLAN
  end
 ~~~
@@ -1601,9 +1601,9 @@ conf t
 config t
 dial-peer voice 69 voip
  service rivanaa out-bound
- destination-pattern #$34T#69
- session target ipv4:10.#$34T#.100.1
- incoming called-number #$34T#69
+ destination-pattern 2169
+ session target ipv4:10.21.100.1
+ incoming called-number 2169
  dtmf-relay h245-alphanumeric
  codec g711ulaw
  no vad
@@ -1626,13 +1626,13 @@ application
   param max-time-vm-retry 2
   param voice-mail 1234
   param max-time-call-retry 700
-  param aa-pilot #$34T#69
+  param aa-pilot 2169
  service rivanqueue flash:app-b-acd-3.0.0.2.tcl
   param queue-len 15
-  param aa-hunt1 #$34T#00
-  param aa-hunt2 #$34T#77
-  param aa-hunt3 #$34T#01
-  param aa-hunt4 #$34T#33
+  param aa-hunt1 2100
+  param aa-hunt2 2177
+  param aa-hunt3 2101
+  param aa-hunt4 2133
   param queue-manager-debugs 1
   param number-of-hunt-grps 4
   end
@@ -1755,8 +1755,8 @@ __Manual Markings__
 conf t
  no router ospf 1
  router ospf 1
-  router-id #$34T#.0.0.1
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area 0
+  router-id 21.0.0.1
+  network 10.21.21.0 0.0.0.255 area 0
   default-information originate always
   exit
  ip domain lookup
@@ -1993,7 +1993,7 @@ ping 21.21.21.213
 ~~~
 !@Powershell
 set-netfirewallprofile -name private,public,domain -enabled false
-rename-computer ccnp#$34T#.com
+rename-computer ccnp21.com
 ncpa.cpl
 ~~~
 
@@ -2039,10 +2039,10 @@ conf t
  crypto pki trustpoint CCNPTRUST
   enrollment url http://192.168.102.8/certsrv/mscep/mscep.dll
   serial-number
-  fqdn utmph.ccnp#$34T#.com
+  fqdn utmph.ccnp21.com
   ip-address 208.8.8.11
   subject-name CN=UTM-PH,OU=NOC,O=RIVANCORP,L=MAKATI,ST=NCR,C=PH
-  subject-alt-name utmph.ccnp#$34T#.com
+  subject-alt-name utmph.ccnp21.com
   revocation-check none
   source interface GigabitEthernet2
   rsakeypair CERTKEY
@@ -2059,10 +2059,10 @@ conf t
  crypto pki trustpoint CCNPTRUST
   enrollment url http://192.168.102.8/certsrv/mscep/mscep.dll
   serial-number
-  fqdn utmjp.ccnp#$34T#.com
+  fqdn utmjp.ccnp21.com
   ip-address 208.8.8.12
   subject-name CN=UTM-JP,OU=NOC,O=RIVANCORP,L=TOKYO,ST=KANTO,C=JP
-  subject-alt-name utmjp.ccnp#$34T#.com
+  subject-alt-name utmjp.ccnp21.com
   revocation-check none
   source interface GigabitEthernet2
   rsakeypair CERTKEY
